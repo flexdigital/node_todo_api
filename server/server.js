@@ -1,4 +1,4 @@
-// library imports
+// global imports
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -29,3 +29,5 @@ app.post('/todos', (req, res) => {
 app.listen(3000, () => {
     console.log('Started on Port 3000');
 });
+
+module.exports = {app};
