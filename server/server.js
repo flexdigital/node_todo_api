@@ -1,3 +1,6 @@
+// requirements
+require('./config/config');
+
 // global imports
 const _ = require('lodash');
 const express = require('express');
@@ -11,7 +14,7 @@ const {User} = require('./models/user');
 
 // app
 var app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // middleware
 app.use(bodyParser.json());
