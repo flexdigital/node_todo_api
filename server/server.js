@@ -49,7 +49,24 @@ app.get('/todos/:id', (req, res) => {
         }
         res.send({todo});
     }).catch((e) => {
-        res.status(400).send('There was an error');
+        res.status(400).send('Oops! Something went wrong');
+    });
+});
+
+// delete routes
+app.delete('/todos/:id', (req, res) => {
+    var id = req.params.id;
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send('Todo Is is not valid, could not be removed');
+    }
+    Todo.findByIdAndRemove(id).then((todo) => {
+        if (!todo) {
+            return res.status(404).send('Todo not found, could not be removed');
+        }
+        res.send({todo});
+    }).catch((e) => {
+        res.status(400).send('Oops! Something went wrong');
     });
 });
 
