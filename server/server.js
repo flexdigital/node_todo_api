@@ -19,6 +19,7 @@ const port = process.env.PORT;
 // middleware
 app.use(bodyParser.json());
 
+// TODOS ROUTES
 // post routes
 app.post('/todos', (req, res) => {
     var todo = new Todo({
@@ -97,6 +98,21 @@ app.patch('/todos/:id', (req, res) => {
         res.send({todo});
     }).catch((e) => {
         res.status(400).send('Oops! Something went wrong');
+    });
+});
+
+// USERS ROUTES
+// post routes
+app.post('/users', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+    var user = new User(body);
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
     });
 });
 
