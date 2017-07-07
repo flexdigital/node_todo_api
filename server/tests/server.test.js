@@ -233,6 +233,7 @@ describe('DELETE /todos/:id', () => {
         var id = todos[1]._id.toHexString();
         request(app)
             .delete(`/todos/${id}`)
+            .set('x-auth', users[1].tokens[0].token)
             .expect(200)
             .expect((res) => {
                 expect(res.body.todo._id).toBe(id);
@@ -251,6 +252,7 @@ describe('DELETE /todos/:id', () => {
         var id = new ObjectID().toHexString();
         request(app)
             .delete(`/todos/${id}`)
+            .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
     });
@@ -258,6 +260,7 @@ describe('DELETE /todos/:id', () => {
         var id = '123abc';
         request(app)
             .delete(`/todos/${id}`)
+            .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
     });

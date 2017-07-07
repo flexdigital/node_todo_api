@@ -67,13 +67,16 @@ app.get('/todos/:id', authenticate, (req, res) => {
 });
 
 // DELETE Routes
-app.delete('/todos/:id', (req, res) => {
+app.delete('/todos/:id', authenticate, (req, res) => {
     var id = req.params.id;
 
     if (!ObjectID.isValid(id)) {
         return res.status(404).send('Todo Is is not valid, could not be removed');
     }
-    Todo.findByIdAndRemove(id).then((todo) => {
+    Todo.findOneAndRemove({
+        _id: id,
+        _creator: req.user._id
+    }).then((todo) => {
         if (!todo) {
             return res.status(404).send('Todo not found, could not be removed');
         }
