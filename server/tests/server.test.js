@@ -137,6 +137,8 @@ describe('POST /users/login', () => {
         request(app)
             .post('/users/login')
             .send({email, password})
+            .expect()
+            .expect()    
             .expect(400)
             .expect((res) => {
                 expect(res.headers['x-auth']).toNotExist();

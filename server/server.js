@@ -44,7 +44,7 @@ app.get('/todos', (req, res) => {
 
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
-    
+
     if (!ObjectID.isValid(id)) {
         return res.status(404).send('Todo Is is not valid');
     }
@@ -119,7 +119,7 @@ app.post('/users', (req, res) => {
 
 app.post('/users/login', (req, res) => {
     var body = _.pick(req.body, ['email', 'password']);
-    
+
     User.findByCredentials(body.email, body.password).then((user) => {
         return user.generateAuthToken().then((token) => {
             res.header('x-auth', token).send(user);
