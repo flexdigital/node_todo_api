@@ -136,9 +136,7 @@ describe('POST /users/login', () => {
         var password = 'blah';
         request(app)
             .post('/users/login')
-            .send({email, password})
-            .expect()
-            .expect()    
+            .send({email, password})    
             .expect(400)
             .expect((res) => {
                 expect(res.headers['x-auth']).toNotExist();
@@ -249,6 +247,24 @@ describe('DELETE /todos/:id', () => {
             .delete(`/todos/${id}`)
             .expect(404)
             .end(done);
+    });
+});
+
+describe('DELETE /users/me/token', () => {
+    it('should remove auth token on logout', (done) => {
+        request(app)
+            .delete('/users/me/token')
+            .set('x-auth', users[0].tokens[0].token)
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                User.findById(users[0]._id).then((user) => {
+                    expect(user.tokens.length).toBe(0);
+                    done();
+                }).catch((e) => done(e));
+            });
     });
 });
 
